@@ -1,0 +1,180 @@
+
+#--------------------#
+#---BSPWM Bindings---#
+#--------------------#
+
+# Quit bspwm
+super + shift + q
+  prompt "Are you sure you would like to quit this Xsession" "bspc quit"
+
+# Restart bspwm
+super + shift + r
+  bspc wm -r
+
+#Close window
+super + q
+	bspc node -c
+
+#Kill window
+super + shift + q
+	bspc node -k
+
+# Focus on window in direction
+super + {Left,Down,Up,Right}
+	bspc node -f {west,south,north,east}
+
+#	Send window to desktop
+super + shift + {0-9}
+  bspc node -d {0-9}
+
+# Send window to desktop and swap to desktop
+super + control + {0-9}
+  bspc node -d {0-9} && bspunhide && bspc desktop -f {0-9}
+
+# Rotate the tree from the current nodes parent
+super + control + {Right, Left}
+  bspc node @parent -C {forward, backward}
+
+# Flip the tree from the current nodes parent
+super + control + {h,j,k,l}
+  bspc node @parent -F {vertical,horizontal,horizontal,vertical}
+
+# Toggle fullscreen on and off
+super + f
+  bspfullscreen
+
+# Toggle floating on and off
+super + o
+  bspc node focused.tiled -t floating || bspc node focused.floating -t tiled
+
+# Swap window with direction
+super + shift + {h,j,k,l}
+	bspc node -s {west,south,north,east}
+
+# Focus on desktop
+super + {0-9}
+	bspc desktop -f {0-9}
+
+# Cycle through desktops
+super + alt + {Left, Right}
+  bspc desktop -f {prev, next}
+
+# Expand a window by moving one of its side outward
+ctrl + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+  #xdo resize {-w -20, -h +20, -h -20, -w +20}
+
+# Contract a window by moving one of its side inward
+ctrl + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+  #xdo resize {-w +20, -h -20, -h +20, -w -20}
+
+# Move a floating window
+ctrl + alt + {Left,Right,Up,Down}
+  xdo move {-x -20, -x +20, -y -20, -y +20}
+
+
+
+#--------------------#
+#---System Control---#
+#--------------------#
+
+# Restart hotkey damon
+super + shift + x
+  killandnotify "sxhkd" "Config reloaded" && sxhkd &
+
+#Reload Polybar
+super + shift + o
+  reloadpolybar
+
+#Reboot-Shutdown
+control + alt + {r, s}
+  prompt {"Are you sure you would like to reboot?" "sudo reboot", "Are you sure you would like to shutdown" "sudo shutdown"}
+
+# Lock the screen
+#control + alt + l
+#  betterlockscreen -l
+
+super + shift + c
+  toggleprogram "compton" "-b"
+
+F7
+  toggletouch
+
+
+#---------------------------#
+#---Application Launchers---#
+#---------------------------#
+
+
+super + d
+  dmenu_run -fn "JetBrains Mono Medium-10"
+
+super + Return
+  tilix
+  #$TERMINAL
+
+
+#----------------#
+#---Multimedia---#
+#----------------#
+
+
+
+
+# Pulse Controls
+super + {Up, Down}
+  pulsevolctrl "output-vol" "alsa_output.pci-0000_00_1f.3.analog-stereo" {+2%, -2%}
+
+super + F8
+  pulsevolctrl "output-mute" "alsa_output.pci-0000_00_1f.3.analog-stereo"
+
+
+
+
+# Media Controls
+super + period
+  playerctl next
+
+super + comma
+  playerctl previous
+
+super + p
+  playerctl play-pause
+
+super + slash
+  songnotification
+
+
+
+# Brightness
+super + {Right, Left}
+  light {-A 5, -U 5} && polybar-msg hook backlight 1
+
+
+
+# Screenshots
+Print
+  screenshot full
+
+shift + Print
+  screenshot select
+
+control + Print
+  screenshot fulltime
+
+super + Print
+  screenshot selecttime
+
+
+
+
+
+
+
+
+
+
+
+
+
